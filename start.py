@@ -14,6 +14,6 @@ for data in datas:
     tags = data['tags']
 
     for tag in tags:
-        os.system('docker pull %s/%s:%s' % (namespace, reponame, tag))
-        os.system('docker rmi -f %s/%s:%s' % (namespace, reponame, tag))
+        os.system('docker pull %s/%s:%s' % (namespace, reponame, tag['name']))
+        os.system('docker rmi -f %s/%s:%s' % (namespace, reponame, tag['name']))
     
