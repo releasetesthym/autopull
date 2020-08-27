@@ -1,0 +1,31 @@
+name: autopull
+
+on:
+    push:
+        branches:
+            - master
+    schedule:
+        - cron: "30 10 1 */1 *"
+jobs:
+    pull container:
+        name: start pull container
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@master
+            - name: checkout_submodules
+              uses: textbook/git-checkout-submodule-action@master
+            - name: Set up Python
+              uses: actions/setup-python@v2
+              with:
+                python-version: 3.8
+            - name: Pull containers
+              shell: bash
+              env:
+                DOCKERHUB_ID: ${{ secrets.DOCKERHUB_ID }}
+                DOCKERHUB_PW: ${{ secrets.DOCKERHUB_PW }}
+              run: |
+                echo "Install Dependencies"
+                pip install requests
+                echo "Start Script"
+                python start.py
